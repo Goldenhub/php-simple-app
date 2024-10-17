@@ -10,8 +10,17 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pgsql pdo pdo_pgsql
 
+# Enable Apache mod_rewrite and configure DirectoryIndex
+# It ensures that Apache recognizes index.php as the default file to serve when a directory is accessed.
+RUN a2enmod rewrite
+RUN echo "DirectoryIndex index.php" >> /etc/apache2/apache2.conf
+
+# Set public as the Document Root
+# It changes Apache's document root to /var/www/html/public, where your index.php resides
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
+
 # Sets the working directory in the container to /var/www/html
-WORKDIR /var/www/html
+WORKDIR /var/www/html/public
 
 # Copies the current directory contents into the container at /var/www/html
 COPY . /var/www/html
