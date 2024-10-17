@@ -5,7 +5,7 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
 
-    # Otherwise, pass the request to index.php
+    # Otherwise, pass the request to index.php in the public directory
     RewriteRule ^ index.php [L]
 
 </IfModule>
